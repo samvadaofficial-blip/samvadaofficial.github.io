@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#0d1b2e"/>
+  <title>Samvāda — Think Beyond Borders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+    const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  </script>
+  <style>
+/* ════════════════════════════════════════
+   TOKENS
+════════════════════════════════════════ */
+:root{
+  --navy:#0d1b2e; --navy-mid:#152440; --navy-soft:#1e3156;
+  --gold:#c9a84c; --gold-lt:#e0c270; --gold-dim:#8b6d2a;
+  --ivory:#f5f0e8; --ivory-dim:#e0d8c8;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --serif2:'Crimson Pro',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+
+/* ════════════════════════════════════════
+   RESET
+════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--navy);color:var(--ivory);overflow-x:hidden;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px}
+
+/* ════════════════════════════════════════
+   UTILITIES
+════════════════════════════════════════ */
+.container{max-width:1140px;margin:0 auto;padding:0 clamp(1.2rem,5vw,2.5rem)}
+.sep{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.25),transparent)}
+.section-tag{font-family:var(--sans);font-size:clamp(.6rem,1.8vw,.7rem);letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;display:block}
+.section-title{font-family:var(--serif);font-size:clamp(1.9rem,6vw,3.4rem);font-weight:400;line-height:1.18;color:var(--ivory);margin-bottom:1.4rem}
+.section-body{font-family:var(--serif2);font-size:clamp(.92rem,2.4vw,1.08rem);line-height:1.85;color:var(--ivory-dim);font-weight:300}
+
+/* ════════════════════════════════════════
+   REVEAL
+════════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* ════════════════════════════════════════
+   KEYFRAMES
+════════════════════════════════════════ */
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinRev{to{transform:rotate(-360deg)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tickLine{0%{transform:scaleY(0);transform-origin:top;opacity:1}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom;opacity:0}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px) rotate(-2deg)}}
+@keyframes glowDot{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.5)}50%{box-shadow:0 0 0 5px rgba(201,168,76,0)}}
+@keyframes borderPulse{0%,100%{border-color:rgba(201,168,76,.2)}50%{border-color:rgba(201,168,76,.5)}}
+
+/* ════════════════════════════════════════
+   NAV
+════════════════════════════════════════ */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:clamp(.9rem,3vw,1.4rem) clamp(1.2rem,4vw,2.5rem);display:flex;align-items:center;justify-content:space-between;transition:background .4s,padding .3s}
+nav.scrolled{background:rgba(13,27,46,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,.18);padding:.75rem clamp(1.2rem,4vw,2.5rem)}
+.nav-logo{font-family:var(--serif);font-size:clamp(1.2rem,4vw,1.55rem);font-weight:600;letter-spacing:.04em;color:var(--ivory);z-index:201}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:1.6rem;list-style:none;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+.nav-links a{color:var(--ivory-dim);transition:color .25s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{border:1px solid var(--gold);color:var(--gold)!important;padding:.32rem .9rem;border-radius:2px;transition:background .25s,color .25s!important}
+.nav-cta:hover{background:var(--gold)!important;color:var(--navy)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:6px;z-index:201;-webkit-tap-highlight-color:transparent}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--ivory);border-radius:1px;transition:transform .35s,opacity .35s}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;z-index:199;background:rgba(9,18,33,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mob-item{font-family:var(--serif);font-size:clamp(1.7rem,7vw,2.6rem);color:var(--ivory);padding:.55rem 2rem;display:block;letter-spacing:.04em;border-bottom:1px solid rgba(201,168,76,.1);width:100%;text-align:center;transition:color .2s,background .2s;-webkit-tap-highlight-color:transparent}
+.mob-item:last-of-type{border-bottom:none}
+.mob-item:active{color:var(--gold);background:rgba(201,168,76,.06)}
+.mob-social{display:flex;gap:1.5rem;margin-top:2rem}
+.mob-social a{font-family:var(--sans);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.5);padding:.5rem;min-height:44px;display:flex;align-items:center}
+.mob-tagline{position:absolute;bottom:2.5rem;font-family:var(--serif);font-size:.8rem;font-style:italic;color:rgba(201,168,76,.3);letter-spacing:.06em}
+@media(max-width:720px){.nav-links{display:none}.hamburger{display:flex}}
+
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
+#hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:var(--navy);padding-top:env(safe-area-inset-top)}
+#hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 90% 70% at 50% 45%,#1b3263 0%,transparent 65%),radial-gradient(ellipse 55% 45% at 15% 85%,#0a1a35 0%,transparent 55%),radial-gradient(ellipse 55% 50% at 88% 15%,#12274d 0%,transparent 55%)}
+#hero::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+#hero-canvas{position:absolute;inset:0;pointer-events:none}
+.hf{position:absolute;pointer-events:none;opacity:.12}
+.hf1{top:15%;right:8%;width:clamp(70px,14vw,120px);height:clamp(70px,14vw,120px);border:1px solid var(--gold);border-radius:50%;animation:float1 6s ease-in-out infinite}
+.hf2{bottom:20%;left:5%;width:clamp(45px,9vw,80px);height:clamp(45px,9vw,80px);border:1px solid var(--gold);transform:rotate(45deg);animation:float2 8s ease-in-out infinite}
+.hf3{top:30%;left:4%;width:clamp(25px,5vw,44px);height:clamp(25px,5vw,44px);border:1px solid rgba(201,168,76,.6);transform:rotate(22deg);animation:float1 10s ease-in-out infinite 2s}
+.hero-inner{position:relative;z-index:2;text-align:center;padding:clamp(5.5rem,13vw,9rem) clamp(1.2rem,5vw,2.5rem) clamp(3.5rem,9vw,6rem);max-width:880px;width:100%}
+.hero-eyebrow{font-family:var(--sans);font-size:clamp(.6rem,1.8vw,.72rem);letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.6rem;opacity:0;transform:translateY(16px);animation:fadeUp .9s .3s forwards}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'—';margin:0 .6rem;opacity:.6}
+.hero-title{font-family:var(--serif);font-size:clamp(2.1rem,8.5vw,5.2rem);font-weight:300;line-height:1.08;letter-spacing:.01em;color:var(--ivory);margin-bottom:1.4rem;opacity:0;transform:translateY(22px);animation:fadeUp 1s .55s forwards}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-title-shimmer{display:inline;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-lt) 40%,var(--gold) 100%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite 2.5s}
+.hero-divider{width:50px;height:1px;background:var(--gold);margin:0 auto 1.6rem;opacity:0;animation:fadeIn .8s 1.1s forwards}
+.hero-sub{font-family:var(--serif2);font-size:clamp(.95rem,2.5vw,1.18rem);font-weight:300;line-height:1.78;color:var(--ivory-dim);max-width:560px;margin:0 auto 2.5rem;opacity:0;transform:translateY(14px);animation:fadeUp .9s 1.25s forwards}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;transform:translateY(12px);animation:fadeUp .9s 1.5s forwards}
+.btn{font-family:var(--sans);font-weight:500;font-size:clamp(.7rem,2.2vw,.78rem);letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.4rem;padding:clamp(.75rem,2.5vw,.9rem) clamp(1.4rem,4vw,2.2rem);border-radius:2px;transition:all .3s;min-height:48px;-webkit-tap-highlight-color:transparent}
+.btn-primary{background:var(--gold);color:var(--navy);border:1px solid var(--gold)}
+.btn-primary:hover,.btn-primary:active{background:var(--gold-lt);transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,.35)}
+.btn-outline{background:transparent;color:var(--ivory);border:1px solid rgba(245,240,232,.3)}
+.btn-outline:hover,.btn-outline:active{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.hero-scroll{position:absolute;bottom:clamp(1.5rem,4vw,2.5rem);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;opacity:0;animation:fadeIn 1s 2.2s forwards;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.35)}
+.scroll-line{width:1px;height:38px;background:linear-gradient(to bottom,var(--gold),transparent);animation:tickLine 1.8s 2.4s infinite}
+
+/* ════════════════════════════════════════
+   MARQUEE
+════════════════════════════════════════ */
+.marquee-strip{background:var(--navy-mid);border-top:1px solid rgba(201,168,76,.18);border-bottom:1px solid rgba(201,168,76,.18);padding:.7rem 0;overflow:hidden}
+.marquee-track{display:flex;animation:marquee 30s linear infinite;width:max-content}
+.marquee-item{font-family:var(--serif);font-style:italic;font-size:clamp(.82rem,2.2vw,.98rem);color:var(--gold);white-space:nowrap;padding:0 2rem}
+.marquee-dot{color:rgba(201,168,76,.35)}
+
+/* ════════════════════════════════════════
+   ABOUT
+════════════════════════════════════════ */
+#about{padding:clamp(4rem,10vw,7rem) 0;background:var(--navy)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,5rem);align-items:center}
+.about-quote{font-family:var(--serif);font-size:clamp(1.1rem,3.5vw,1.9rem);font-weight:300;font-style:italic;line-height:1.5;color:var(--ivory);border-left:2px solid var(--gold);padding-left:1.4rem;margin-top:2rem}
+.about-quote cite{display:block;margin-top:.7rem;font-family:var(--sans);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-style:normal}
+.about-box{background:var(--navy-mid);border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:clamp(1.6rem,4vw,3rem);position:relative;overflow:hidden}
+.about-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.3rem}
+.stat-item{text-align:center;padding:.8rem .5rem}
+.stat-num{font-family:var(--serif);font-size:clamp(1.8rem,6vw,3rem);font-weight:300;color:var(--gold);line-height:1;margin-bottom:.25rem}
+.stat-label{font-family:var(--sans);font-size:clamp(.58rem,1.6vw,.65rem);letter-spacing:.12em;text-transform:uppercase;color:var(--ivory-dim)}
+.box-divider{width:100%;height:1px;background:rgba(201,168,76,.1);margin-bottom:1.2rem}
+.box-foot{font-family:var(--serif2);font-size:clamp(.82rem,2.2vw,.9rem);line-height:1.75;color:rgba(245,240,232,.4);font-weight:300;text-align:center}
+@media(max-width:720px){.about-grid{grid-template-columns:1fr}}
+
+/* ════════════════════════════════════════
+   FOCUS
+════════════════════════════════════════ */
+#focus{padding:clamp(4rem,10vw,7rem) 0;background:var(--navy-mid)}
+.focus-header{text-align:center;margin-bottom:clamp(2.5rem,6vw,4rem)}
+.focus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2.5vw,1.5rem)}
+.focus-card{background:rgba(13,27,46,.75);border:1px solid rgba(201,168,76,.14);border-radius:4px;padding:clamp(1.4rem,4vw,2.4rem) clamp(1.1rem,3vw,2rem);position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;-webkit-tap-highlight-color:transparent}
+.focus-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.focus-card:hover,.focus-card:active{border-color:rgba(201,168,76,.4);transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+.focus-card:hover::after,.focus-card:active::after{opacity:1}
+.focus-icon{font-size:clamp(1.3rem,4vw,1.8rem);margin-bottom:.9rem;line-height:1}
+.focus-name{font-family:var(--serif);font-size:clamp(1.05rem,3vw,1.45rem);font-weight:500;color:var(--ivory);margin-bottom:.45rem}
+.focus-desc{font-family:var(--sans);font-size:clamp(.72rem,1.9vw,.83rem);line-height:1.65;color:rgba(245,240,232,.5)}
+.focus-num{position:absolute;top:1.1rem;right:1.4rem;font-family:var(--serif);font-size:.82rem;color:rgba(201,168,76,.2)}
+@media(max-width:680px){.focus-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:400px){.focus-grid{grid-template-columns:1fr}}
+
+/* ════════════════════════════════════════
+   QUOTES
+════════════════════════════════════════ */
+#quotes{padding:clamp(3.5rem,9vw,6rem) 0;background:var(--navy);position:relative;overflow:hidden}
+#quotes::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(27,50,99,.4),transparent)}
+.quotes-header{text-align:center;margin-bottom:clamp(2rem,5vw,3rem)}
+.quote-carousel{position:relative;max-width:700px;margin:0 auto;padding:0 clamp(1.2rem,5vw,2rem)}
+.quote-cards{position:relative;height:clamp(210px,54vw,285px);touch-action:pan-y}
+.quote-card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(1.4rem,5vw,2.5rem);background:rgba(21,36,64,.7);border:1px solid rgba(201,168,76,.18);border-radius:6px;opacity:0;transform:translateX(50px) scale(.97);transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.quote-card.active{opacity:1;transform:none;pointer-events:all}
+.quote-card.exit{opacity:0;transform:translateX(-50px) scale(.97)}
+.quote-card::before{content:'"';position:absolute;top:.6rem;left:1rem;font-family:var(--serif);font-size:3.5rem;font-weight:300;color:rgba(201,168,76,.12);line-height:1}
+.q-text{font-family:var(--serif);font-size:clamp(1rem,3.5vw,1.5rem);font-weight:300;font-style:italic;line-height:1.5;color:var(--ivory);margin-bottom:1rem;position:relative;z-index:1}
+.q-attr{font-family:var(--sans);font-size:clamp(.6rem,1.8vw,.7rem);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.q-nav{display:flex;align-items:center;justify-content:center;gap:.75rem;margin-top:1.3rem}
+.q-dot-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;-webkit-tap-highlight-color:transparent}
+.q-dot-inner{width:7px;height:7px;border-radius:50%;border:1px solid rgba(201,168,76,.35);background:transparent;transition:background .3s,border-color .3s}
+.q-dot-btn.active .q-dot-inner{background:var(--gold);border-color:var(--gold)}
+.q-arrow{background:none;border:1px solid rgba(201,168,76,.22);color:var(--gold);border-radius:2px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:background .25s;-webkit-tap-highlight-color:transparent}
+.q-arrow:hover{background:rgba(201,168,76,.1);border-color:var(--gold)}
+.swipe-hint{text-align:center;margin-top:.7rem;font-family:var(--sans);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,168,76,.28)}
+
+/* ════════════════════════════════════════
+   MISSION & VISION
+════════════════════════════════════════ */
+#mission{padding:clamp(4rem,10vw,8rem) 0;background:var(--navy-mid)}
+.mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3rem)}
+.mv-panel{border:1px solid rgba(201,168,76,.18);border-radius:3px;padding:clamp(2rem,5vw,3.5rem) clamp(1.5rem,4vw,3rem);position:relative;overflow:hidden}
+.mv-panel::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--gold),transparent)}
+.mv-label{font-family:var(--sans);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:block}
+.mv-title{font-family:var(--serif);font-size:clamp(1.2rem,3.5vw,2rem);font-weight:400;font-style:italic;color:var(--ivory);margin-bottom:1.1rem;line-height:1.3}
+.mv-body{font-family:var(--serif2);font-size:clamp(.87rem,2.2vw,1rem);line-height:1.85;color:var(--ivory-dim);font-weight:300}
+@media(max-width:620px){.mv-grid{grid-template-columns:1fr}}
+
+/* ════════════════════════════════════════
+   WHY
+════════════════════════════════════════ */
+#why{padding:clamp(4rem,10vw,8rem) 0;background:var(--navy)}
+.why-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,5rem);align-items:center}
+.why-points{list-style:none;margin-top:2rem}
+.why-point{display:flex;gap:1rem;margin-bottom:1.5rem;opacity:0;transform:translateX(-18px);transition:opacity .55s,transform .55s}
+.why-point.visible{opacity:1;transform:none}
+.wp-icon{flex-shrink:0;width:32px;height:32px;border:1px solid rgba(201,168,76,.28);border-radius:2px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.8rem;margin-top:.1rem}
+.why-point strong{display:block;font-family:var(--serif);font-size:clamp(.95rem,2.5vw,1.1rem);font-weight:500;color:var(--ivory);margin-bottom:.2rem}
+.why-point span{font-family:var(--sans);font-size:clamp(.74rem,2vw,.83rem);line-height:1.6;color:rgba(245,240,232,.5)}
+.orbit-wrap{position:relative;width:clamp(200px,50vw,320px);height:clamp(200px,50vw,320px);margin:0 auto}
+.orbit{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(201,168,76,.18);animation:spin 40s linear infinite}
+.orbit:nth-child(2){inset:16px;border-style:dashed;border-color:rgba(201,168,76,.09);animation:spinRev 28s linear infinite}
+.orbit:nth-child(3){inset:40px;border-color:rgba(201,168,76,.05);animation:spin 56s linear infinite}
+.orbit::after{content:'';position:absolute;top:-3px;left:50%;width:5px;height:5px;border-radius:50%;background:var(--gold);transform:translateX(-50%);box-shadow:0 0 6px var(--gold)}
+.orbit:nth-child(2)::after{top:auto;bottom:-3px;width:4px;height:4px}
+.orbit:nth-child(3)::after{display:none}
+.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.orbit-word{font-family:var(--serif);font-size:clamp(1.1rem,4vw,1.6rem);font-style:italic;color:var(--gold);line-height:1.5}
+.orbit-vline{width:1px;height:18px;background:rgba(201,168,76,.3);margin:.25rem auto}
+.orbit-dev{font-family:var(--serif);font-size:clamp(.8rem,3vw,1rem);color:rgba(201,168,76,.55)}
+@media(max-width:640px){.why-inner{grid-template-columns:1fr}.orbit-wrap{order:-1;width:200px;height:200px}}
+
+/* ════════════════════════════════════════
+   LEADERSHIP  ← NEW
+════════════════════════════════════════ */
+#leadership{
+  padding:clamp(4rem,10vw,7rem) 0;
+  background:var(--navy-mid);
+  position:relative; overflow:hidden;
+}
+/* giant decorative circle */
+#leadership::after{
+  content:'';
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:min(800px,140vw);
+  height:min(800px,140vw);
+  border-radius:50%;
+  border:1px solid rgba(201,168,76,.04);
+  pointer-events:none;
+}
+.leadership-header{text-align:center;margin-bottom:clamp(2.5rem,7vw,4.5rem)}
+.leadership-header .section-title{margin-bottom:.6rem}
+.leadership-sub{font-family:var(--serif2);font-size:clamp(.9rem,2.3vw,1.05rem);color:rgba(245,240,232,.45);font-style:italic;font-weight:300}
+
+/* ── founders row ── */
+.founders-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(1.2rem,3.5vw,2rem);
+  max-width:720px;
+  margin:0 auto clamp(2.5rem,6vw,3.5rem);
+}
+
+/* ── committee row ── */
+.committee-row{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:clamp(.8rem,2vw,1.2rem);
+}
+
+/* ── Founder card — large, cinematic ── */
+.founder-card{
+  background:linear-gradient(145deg,#172847 0%,#0f1e36 100%);
+  border:1px solid rgba(201,168,76,.28);
+  border-radius:6px;
+  padding:clamp(2rem,5vw,2.8rem) clamp(1.4rem,4vw,2rem);
+  position:relative; overflow:hidden;
+  text-align:center;
+  transition:border-color .38s,transform .38s,box-shadow .38s;
+  -webkit-tap-highlight-color:transparent;
+}
+.founder-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.founder-card::after{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(201,168,76,.07),transparent);
+  pointer-events:none;
+}
+.founder-card:hover,.founder-card:active{
+  border-color:rgba(201,168,76,.65);
+  transform:translateY(-6px);
+  box-shadow:0 24px 64px rgba(0,0,0,.5),0 0 0 1px rgba(201,168,76,.1);
+}
+/* crown ornament top-right */
+.founder-crown{
+  position:absolute;top:1rem;right:1.1rem;
+  font-family:var(--sans);font-size:.55rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(201,168,76,.5);
+  background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.2);
+  padding:.2rem .55rem;border-radius:20px;
+}
+
+/* ── Committee card — compact, elegant ── */
+.committee-card{
+  background:rgba(13,27,46,.8);
+  border:1px solid rgba(201,168,76,.14);
+  border-radius:4px;
+  padding:clamp(1.2rem,3vw,1.6rem) clamp(.8rem,2vw,1.1rem);
+  position:relative; overflow:hidden;
+  text-align:center;
+  transition:border-color .3s,transform .3s,box-shadow .3s;
+  -webkit-tap-highlight-color:transparent;
+}
+.committee-card::before{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.committee-card:hover,.committee-card:active{
+  border-color:rgba(201,168,76,.38);
+  transform:translateY(-4px);
+  box-shadow:0 12px 36px rgba(0,0,0,.4);
+}
+.committee-card:hover::before,.committee-card:active::before{opacity:1}
+
+/* ── shared avatar ── */
+.member-avatar{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto clamp(.9rem,2.5vw,1.2rem);
+}
+.avatar-ring{
+  border-radius:50%;
+  border:1px solid rgba(201,168,76,.3);
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#1e3a6a 0%,#0e1e38 100%);
+  position:relative; overflow:hidden;
+  transition:border-color .3s,box-shadow .3s;
+}
+.founder-card .avatar-ring{
+  width:clamp(72px,14vw,92px);
+  height:clamp(72px,14vw,92px);
+}
+.committee-card .avatar-ring{
+  width:clamp(52px,10vw,66px);
+  height:clamp(52px,10vw,66px);
+}
+.avatar-ring::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 35% 30%,rgba(201,168,76,.18),transparent 60%);
+}
+.avatar-initials{
+  font-family:var(--serif);font-weight:300;
+  color:var(--gold);position:relative;z-index:1;letter-spacing:.06em;
+}
+.founder-card .avatar-initials{font-size:clamp(1.3rem,3.5vw,1.7rem)}
+.committee-card .avatar-initials{font-size:clamp(.95rem,2.5vw,1.2rem)}
+.avatar-dot{
+  position:absolute;bottom:1px;right:1px;
+  width:11px;height:11px;border-radius:50%;
+  background:var(--gold);border:2px solid var(--navy-mid);
+  animation:glowDot 2.5s ease-in-out infinite;
+}
+.founder-card:hover .avatar-ring,.founder-card:active .avatar-ring{
+  border-color:var(--gold);
+  box-shadow:0 0 20px rgba(201,168,76,.25);
+}
+.committee-card:hover .avatar-ring,.committee-card:active .avatar-ring{
+  border-color:rgba(201,168,76,.6);
+}
+
+/* ── role badge ── */
+.role-badge{
+  display:inline-block;
+  font-family:var(--sans);
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid rgba(201,168,76,.28);
+  border-radius:20px;
+  margin-bottom:.65rem;
+}
+.founder-card .role-badge{font-size:clamp(.52rem,1.4vw,.6rem);padding:.22rem .75rem}
+.committee-card .role-badge{font-size:clamp(.48rem,1.2vw,.55rem);padding:.18rem .6rem}
+
+/* ── name ── */
+.member-name{
+  font-family:var(--serif);font-weight:500;color:var(--ivory);
+  line-height:1.2;margin-bottom:.35rem;
+}
+.founder-card .member-name{font-size:clamp(1.15rem,3.2vw,1.5rem)}
+.committee-card .member-name{font-size:clamp(.9rem,2.2vw,1.1rem)}
+
+/* ── tagline / domain ── */
+.member-tagline{
+  font-family:var(--serif2);font-weight:300;font-style:italic;color:rgba(245,240,232,.45);
+}
+.founder-card .member-tagline{font-size:clamp(.82rem,2vw,.95rem);line-height:1.6;margin-bottom:1.1rem}
+.committee-card .member-tagline{font-size:clamp(.7rem,1.8vw,.78rem);line-height:1.5}
+
+/* ── founder quote ── */
+.founder-quote{
+  font-family:var(--serif);font-size:clamp(.88rem,2.2vw,1rem);
+  font-style:italic;color:rgba(245,240,232,.55);
+  border-top:1px solid rgba(201,168,76,.14);
+  padding-top:.9rem;margin-top:.2rem;line-height:1.6;
+  position:relative;z-index:1;
+}
+.founder-quote::before{content:'"';margin-right:.15rem;color:var(--gold);opacity:.6}
+.founder-quote::after{content:'"';margin-left:.1rem;color:var(--gold);opacity:.6}
+
+/* ── domain chip on committee ── */
+.domain-chip{
+  display:inline-block;margin-top:.55rem;
+  font-family:var(--sans);font-size:clamp(.48rem,1.3vw,.58rem);
+  letter-spacing:.14em;text-transform:uppercase;
+  background:rgba(201,168,76,.08);
+  color:rgba(201,168,76,.6);
+  border:1px solid rgba(201,168,76,.12);
+  padding:.18rem .55rem;border-radius:3px;
+}
+
+/* ── team divider ornament ── */
+.team-divider{
+  display:flex;align-items:center;justify-content:center;
+  gap:1.2rem;margin-bottom:clamp(2rem,5vw,3rem);
+}
+.team-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.2),transparent)}
+.team-divider-label{
+  font-family:var(--sans);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(201,168,76,.45);white-space:nowrap;
+}
+
+/* responsive */
+@media(max-width:900px){.committee-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){
+  .founders-row{grid-template-columns:1fr;max-width:340px}
+  .committee-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:380px){.committee-row{grid-template-columns:1fr}}
+
+/* ════════════════════════════════════════
+   POLL
+════════════════════════════════════════ */
+#poll{padding:clamp(3.5rem,9vw,6rem) 0;background:linear-gradient(180deg,var(--navy),var(--navy-mid))}
+.poll-wrap{max-width:640px;margin:0 auto;text-align:center}
+.poll-q{font-family:var(--serif);font-size:clamp(1.2rem,4vw,1.9rem);font-weight:300;font-style:italic;color:var(--ivory);line-height:1.4;margin-bottom:1.8rem;min-height:3.5rem}
+.poll-opts{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.5rem}
+.poll-opt{background:rgba(21,36,64,.6);border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:1rem .85rem;font-family:var(--sans);font-size:clamp(.76rem,2.2vw,.87rem);color:var(--ivory-dim);cursor:pointer;transition:all .28s;position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;text-align:left;min-height:52px}
+.poll-opt:hover,.poll-opt:active{border-color:rgba(201,168,76,.4);color:var(--ivory);background:rgba(201,168,76,.07)}
+.poll-bar{position:absolute;top:0;left:0;bottom:0;background:rgba(201,168,76,.14);transition:width .7s cubic-bezier(.22,1,.36,1);pointer-events:none;width:0}
+.poll-opt-txt{position:relative;z-index:1}
+.poll-pct{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);font-family:var(--serif);font-size:.82rem;color:var(--gold);opacity:0;transition:opacity .3s .35s;z-index:1}
+.poll-opt.revealed .poll-pct{opacity:1}
+.poll-next{background:none;border:1px solid rgba(201,168,76,.28);color:var(--gold);padding:.6rem 1.6rem;border-radius:2px;font-family:var(--sans);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;transition:all .25s;display:none;-webkit-tap-highlight-color:transparent;min-height:44px}
+.poll-next.show{display:inline-flex;align-items:center;gap:.4rem}
+.poll-next:hover{background:rgba(201,168,76,.08);border-color:var(--gold)}
+.poll-ctr{font-family:var(--sans);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,168,76,.35);margin-top:1rem}
+@media(max-width:400px){.poll-opts{grid-template-columns:1fr}}
+
+/* ════════════════════════════════════════
+   EVENTS
+════════════════════════════════════════ */
+#events{padding:clamp(4rem,10vw,7rem) 0;background:var(--navy)}
+.events-header{text-align:center;margin-bottom:clamp(2rem,5vw,3.5rem)}
+.event-tease{max-width:680px;margin:0 auto;border:1px solid rgba(201,168,76,.22);border-radius:4px;padding:clamp(2.5rem,7vw,4rem) clamp(1.5rem,5vw,3rem);position:relative;overflow:hidden;background:rgba(21,36,64,.45);text-align:center}
+.event-tease::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.event-badge{display:inline-block;border:1px solid rgba(201,168,76,.4);color:var(--gold);font-family:var(--sans);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.28rem .85rem;border-radius:20px;margin-bottom:1.4rem}
+.event-title{font-family:var(--serif);font-size:clamp(1.4rem,4.5vw,2.3rem);font-weight:300;color:var(--ivory);margin-bottom:.9rem}
+.event-body{font-family:var(--serif2);font-size:clamp(.87rem,2.3vw,1rem);line-height:1.8;color:var(--ivory-dim);font-weight:300;margin-bottom:2rem}
+.notify-form{display:flex;gap:.75rem;max-width:400px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.notify-input{flex:1;min-width:160px;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.25);color:var(--ivory);border-radius:2px;padding:.75rem 1rem;font-family:var(--sans);font-size:16px;outline:none;transition:border-color .25s;min-height:46px}
+.notify-input::placeholder{color:rgba(245,240,232,.3)}
+.notify-input:focus{border-color:var(--gold)}
+.btn-notify{background:var(--gold);color:var(--navy);border:none;border-radius:2px;padding:.75rem 1.3rem;font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:background .25s;min-height:46px;-webkit-tap-highlight-color:transparent}
+.btn-notify:hover,.btn-notify:active{background:var(--gold-lt)}
+#notify-msg{margin-top:.8rem;font-family:var(--sans);font-size:.8rem;color:var(--gold);display:none}
+
+/* ════════════════════════════════════════
+   CONTACT
+════════════════════════════════════════ */
+#contact{padding:clamp(4rem,10vw,7rem) 0;background:var(--navy-mid)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,5rem);align-items:start}
+.contact-channels{margin-top:1.8rem}
+.contact-item{display:flex;align-items:center;gap:.9rem;margin-bottom:1rem;padding:.95rem 1.1rem;border:1px solid rgba(201,168,76,.12);border-radius:3px;transition:border-color .3s,background .3s;min-height:54px;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.contact-item:hover,.contact-item:active{border-color:rgba(201,168,76,.35);background:rgba(201,168,76,.04)}
+.ci-icon{width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid rgba(201,168,76,.22);border-radius:2px;color:var(--gold);font-size:.9rem}
+.ci-label{font-family:var(--sans);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.15rem}
+.ci-val{font-family:var(--sans);font-size:clamp(.8rem,2.3vw,.9rem);color:var(--ivory-dim);transition:color .25s}
+.contact-item:hover .ci-val{color:var(--ivory)}
+.contact-form-panel{background:rgba(13,27,46,.75);border:1px solid rgba(201,168,76,.15);border-radius:3px;padding:clamp(1.5rem,4vw,2.5rem)}
+.contact-form-panel h3{font-family:var(--serif);font-size:clamp(1.2rem,3.5vw,1.5rem);font-weight:400;color:var(--ivory);margin-bottom:1.1rem}
+.form-field{margin-bottom:.9rem}
+.form-field label{display:block;font-family:var(--sans);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.form-field input,.form-field textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.18);color:var(--ivory);border-radius:2px;padding:.72rem .9rem;font-family:var(--serif2);font-size:16px;outline:none;transition:border-color .25s;resize:none}
+.form-field input::placeholder,.form-field textarea::placeholder{color:rgba(245,240,232,.25)}
+.form-field input:focus,.form-field textarea:focus{border-color:var(--gold)}
+.form-submit{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:2px;padding:.9rem;font-family:var(--sans);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;transition:background .25s;min-height:48px;-webkit-tap-highlight-color:transparent}
+.form-submit:hover,.form-submit:active{background:var(--gold-lt)}
+@media(max-width:640px){.contact-grid{grid-template-columns:1fr}}
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.15);padding:clamp(2.5rem,6vw,3.5rem) 0;padding-bottom:calc(clamp(2.5rem,6vw,3.5rem) + env(safe-area-inset-bottom))}
+.footer-inner{display:flex;flex-direction:column;align-items:center;gap:1rem;text-align:center}
+.footer-logo{font-family:var(--serif);font-size:clamp(1.2rem,3.5vw,1.4rem);font-weight:600;color:var(--ivory)}
+.footer-logo span{color:var(--gold)}
+.footer-orn{display:flex;align-items:center;gap:1rem;color:rgba(201,168,76,.3)}
+.footer-orn-line{width:55px;height:1px;background:rgba(201,168,76,.18)}
+.footer-quote{font-family:var(--serif);font-size:clamp(.92rem,2.5vw,1.05rem);font-style:italic;color:var(--gold)}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center}
+.footer-links a{font-family:var(--sans);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,232,.28);transition:color .25s;min-height:36px;display:flex;align-items:center}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{font-family:var(--sans);font-size:.65rem;letter-spacing:.06em;color:rgba(245,240,232,.22)}
+  </style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav id="navbar">
+  <div class="nav-logo">Samv<span>ā</span>da</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#focus">Focus</a></li>
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#leadership">Team</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#contact" class="nav-cta">Join</a></li>
+  </ul>
+  <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mob-menu">
+  <a class="mob-item" href="#about"      onclick="closeMob()">About</a>
+  <a class="mob-item" href="#focus"      onclick="closeMob()">Focus Areas</a>
+  <a class="mob-item" href="#mission"    onclick="closeMob()">Mission</a>
+  <a class="mob-item" href="#leadership" onclick="closeMob()">Leadership</a>
+  <a class="mob-item" href="#poll"       onclick="closeMob()">Engage</a>
+  <a class="mob-item" href="#events"     onclick="closeMob()">Events</a>
+  <a class="mob-item" href="#contact"    onclick="closeMob()">Join Us</a>
+  <div class="mob-social">
+    <a href="https://instagram.com/samvada_forum" target="_blank">Instagram</a>
+    <a href="mailto:samvada.official@gmail.com">Email</a>
+  </div>
+  <div class="mob-tagline">"Think Beyond Borders."</div>
+</div>
+
+<!-- ════ HERO ════ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hf hf1"></div>
+  <div class="hf hf2"></div>
+  <div class="hf hf3"></div>
+  <div class="hero-inner">
+    <svg width="150" height="16" viewBox="0 0 150 16" style="margin:0 auto 1.5rem;display:block;opacity:0;animation:fadeIn .8s .2s forwards">
+      <line x1="0" y1="8" x2="50" y2="8" stroke="#c9a84c" stroke-width=".7" opacity=".5"/>
+      <polygon points="75,1 81,8 75,15 69,8" fill="none" stroke="#c9a84c" stroke-width=".9"/>
+      <line x1="100" y1="8" x2="150" y2="8" stroke="#c9a84c" stroke-width=".7" opacity=".5"/>
+    </svg>
+    <p class="hero-eyebrow">A Student-Led Intellectual Forum</p>
+    <h1 class="hero-title">The World Changes<br>When <em><span class="hero-title-shimmer">Ideas Collide.</span></em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">Samvāda is a platform where students engage in thoughtful discussion, question assumptions, and build the confidence to participate in the ideas that shape our world.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">Join the Movement</a>
+      <a href="#about"   class="btn btn-outline">Learn More</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<!-- ════ MARQUEE ════ -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Politics</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Philosophy</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Geopolitics</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Dialogue</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Critical Thinking</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Debate</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Ethics</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Democracy</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Justice</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Discourse</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Politics</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Philosophy</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Geopolitics</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Dialogue</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Critical Thinking</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Debate</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Ethics</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Democracy</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Justice</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">Discourse</span><span class="marquee-item"><span class="marquee-dot">◆</span></span>
+  </div>
+</div>
+
+<!-- ════ ABOUT ════ -->
+<section id="about">
+  <div class="sep"></div>
+  <div class="container" style="padding-top:clamp(4rem,10vw,7rem);padding-bottom:clamp(4rem,10vw,7rem)">
+    <div class="about-grid">
+      <div>
+        <p class="section-tag reveal">Who We Are</p>
+        <h2 class="section-title reveal d1">A space where ideas<br>are taken seriously.</h2>
+        <p class="section-body reveal d2">Samvāda — Sanskrit for <em>dialogue</em> — is not a competition. It is a community. A gathering of students who believe that real change begins with the quality of our conversations.</p>
+        <p class="section-body reveal d2" style="margin-top:.9rem">We focus on politics, geopolitics, philosophy, and the landscape of ideas that define our world — treating each discussion as an opportunity to learn, challenge, and grow.</p>
+        <blockquote class="about-quote reveal d3">
+          "Vyakti nahi, vichar badlo."<br>
+          <em style="font-size:clamp(.8rem,2vw,.9rem)">— Don't change the person. Change the idea.</em>
+          <cite>The Samvāda Principle</cite>
+        </blockquote>
+      </div>
+      <div class="reveal d2">
+        <div class="about-box">
+          <div class="stat-row">
+            <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Questions worth asking</div></div>
+            <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Intellectual domains</div></div>
+          </div>
+          <div class="box-divider"></div>
+          <div class="stat-row" style="margin-bottom:1.1rem">
+            <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Founding members</div></div>
+            <div class="stat-item"><div class="stat-num">∅</div><div class="stat-label">Trophies required</div></div>
+          </div>
+          <div class="box-divider"></div>
+          <p class="box-foot">From Nashik to the world stage — a student's perspective deserves to be heard, challenged, and refined.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOCUS ════ -->
+<section id="focus">
+  <div class="sep"></div>
+  <div class="container" style="padding-top:clamp(4rem,10vw,7rem);padding-bottom:clamp(4rem,10vw,7rem)">
+    <div class="focus-header">
+      <p class="section-tag reveal">What We Explore</p>
+      <h2 class="section-title reveal d1" style="text-align:center">Our Intellectual Pillars</h2>
+      <p class="section-body reveal d2" style="max-width:500px;margin:0 auto;text-align:center">Six domains. Infinite conversations. Each chosen because the world demands we understand them.</p>
+    </div>
+    <div class="focus-grid">
+      <div class="focus-card reveal d1"><span class="focus-num">01</span><div class="focus-icon">⚖️</div><h3 class="focus-name">Politics</h3><p class="focus-desc">Power, governance, and the systems that shape societies — from local democracy to global institutions.</p></div>
+      <div class="focus-card reveal d2"><span class="focus-num">02</span><div class="focus-icon">🌐</div><h3 class="focus-name">Geopolitics</h3><p class="focus-desc">Geography, economy, and strategy — why nations act the way they do.</p></div>
+      <div class="focus-card reveal d3"><span class="focus-num">03</span><div class="focus-icon">🔭</div><h3 class="focus-name">Philosophy</h3><p class="focus-desc">Ethics, existence, knowledge, and justice — the foundations of every serious debate.</p></div>
+      <div class="focus-card reveal d1"><span class="focus-num">04</span><div class="focus-icon">🗣️</div><h3 class="focus-name">Debate</h3><p class="focus-desc">Structured argumentation — defending positions with rigor and revising them with grace.</p></div>
+      <div class="focus-card reveal d2"><span class="focus-num">05</span><div class="focus-icon">🪷</div><h3 class="focus-name">Dialogue</h3><p class="focus-desc">Listening deeply and speaking honestly — conversation as collaborative thinking.</p></div>
+      <div class="focus-card reveal d3"><span class="focus-num">06</span><div class="focus-icon">💡</div><h3 class="focus-name">Critical Thinking</h3><p class="focus-desc">Questioning assumptions, evaluating evidence, and reasoning clearly across every domain.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ QUOTES ════ -->
+<section id="quotes">
+  <div class="sep"></div>
+  <div class="container" style="padding-top:clamp(3.5rem,9vw,6rem);padding-bottom:clamp(3.5rem,9vw,6rem)">
+    <div class="quotes-header">
+      <p class="section-tag reveal" style="text-align:center">Words That Move Us</p>
+      <h2 class="section-title reveal d1" style="text-align:center">Voices of Inquiry</h2>
+    </div>
+    <div class="quote-carousel reveal d2">
+      <div class="quote-cards" id="q-cards">
+        <div class="quote-card active"><p class="q-text">"The unexamined life is not worth living."</p><span class="q-attr">— Socrates</span></div>
+        <div class="quote-card"><p class="q-text">"Doubt is not a pleasant condition, but certainty is an absurd one."</p><span class="q-attr">— Voltaire</span></div>
+        <div class="quote-card"><p class="q-text">"Not all those who wander are lost — and not all who argue are enemies."</p><span class="q-attr">— Samvāda</span></div>
+        <div class="quote-card"><p class="q-text">"Strength does not come from agreement. It comes from the willingness to question."</p><span class="q-attr">— Samvāda Principle</span></div>
+        <div class="quote-card"><p class="q-text">"Tarka vinā brahma jñānam na sidhyati."<br><em style="font-size:.85em;opacity:.65">Without reasoning, truth cannot be attained.</em></p><span class="q-attr">— Nyāya Sūtra</span></div>
+        <div class="quote-card"><p class="q-text">"Those who cannot change their minds cannot change anything."</p><span class="q-attr">— George Bernard Shaw</span></div>
+      </div>
+      <div class="q-nav" id="q-nav">
+        <button class="q-arrow" id="q-prev" aria-label="Previous">‹</button>
+        <button class="q-arrow" id="q-next" aria-label="Next">›</button>
+      </div>
+      <p class="swipe-hint">← Swipe to explore →</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ MISSION ════ -->
+<section id="mission">
+  <div class="sep"></div>
+  <div class="container" style="padding-top:clamp(4rem,10vw,8rem);padding-bottom:clamp(4rem,10vw,8rem)">
+    <div style="text-align:center;margin-bottom:clamp(2rem,5vw,3.5rem)">
+      <p class="section-tag reveal">Our Purpose</p>
+      <h2 class="section-title reveal d1">Mission &amp; Vision</h2>
+    </div>
+    <div class="mv-grid">
+      <div class="mv-panel reveal">
+        <span class="mv-label">Mission</span>
+        <h3 class="mv-title">To create a platform where students engage in thoughtful discussion.</h3>
+        <p class="mv-body">Samvāda exists to give students a space to challenge assumptions, build intellectual confidence, and develop the habit of engaging meaningfully with the world's most important ideas — through reasoned debate and respectful dialogue.</p>
+        <p class="mv-body" style="margin-top:.9rem">A student who argues well, listens carefully, and thinks clearly is prepared for more than any exam can measure.</p>
+      </div>
+      <div class="mv-panel reveal d2">
+        <span class="mv-label">Vision</span>
+        <h3 class="mv-title">A generation that thinks, communicates, and engages responsibly.</h3>
+        <p class="mv-body">We envision a community of young thinkers — rooted in Indian intellectual traditions and oriented toward global conversations — who engage with politics, philosophy, and global affairs not as spectators, but as participants.</p>
+        <p class="mv-body" style="margin-top:.9rem">Students who speak with precision, argue with evidence, and carry the rare habit of changing their minds when the better argument demands it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ WHY ════ -->
+<section id="why">
+  <div class="sep"></div>
+  <div class="container" style="padding-top:clamp(4rem,10vw,8rem);padding-bottom:clamp(4rem,10vw,8rem)">
+    <div class="why-inner">
+      <div>
+        <p class="section-tag reveal">A Different Kind of Forum</p>
+        <h2 class="section-title reveal d1">Not just debate.<br><em style="color:var(--gold)">Dialogue with depth.</em></h2>
+        <ul class="why-points">
+          <li class="why-point"><div class="wp-icon">◈</div><div><strong>Ideas, not trophies</strong><span>We measure success by the quality of conversation, not rankings.</span></div></li>
+          <li class="why-point"><div class="wp-icon">◈</div><div><strong>Rooted in Indian thought</strong><span>From the Nyāya to the Arthashastra — a rich tradition of inquiry.</span></div></li>
+          <li class="why-point"><div class="wp-icon">◈</div><div><strong>Globally literate</strong><span>Local perspectives connected to conversations about democracy, justice, and power.</span></div></li>
+          <li class="why-point"><div class="wp-icon">◈</div><div><strong>Community, not competition</strong><span>Every member is a collaborator — ideas are genuinely respected here.</span></div></li>
+          <li class="why-point"><div class="wp-icon">◈</div><div><strong>Student-built, student-led</strong><span>Every session, topic, and discussion shaped by students — for students.</span></div></li>
+        </ul>
+      </div>
+      <div class="reveal d2">
+        <div class="orbit-wrap">
+          <div class="orbit"></div><div class="orbit"></div><div class="orbit"></div>
+          <div class="orbit-center">
+            <div class="orbit-vline"></div>
+            <div class="orbit-word">Samvāda</div>
+            <div class="orbit-vline"></div>
+            <div class="orbit-dev">संवाद</div>
+          </div>
+        </div>
+        <p style="text-align:center;margin-top:1.1rem;font-family:var(--serif2);font-size:.88rem;font-style:italic;color:rgba(245,240,232,.32)">Sanskrit — dialogue, conversation, discourse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     LEADERSHIP
+════════════════════════════════════════ -->
+<section id="leadership">
+  <div class="sep"></div>
+  <div class="container" style="padding-top:clamp(4rem,10vw,7rem);padding-bottom:clamp(4rem,10vw,7rem)">
+
+    <div class="leadership-header">
+      <p class="section-tag reveal" style="text-align:center">The People Behind the Ideas</p>
+      <h2 class="section-title reveal d1" style="text-align:center">Our Leadership</h2>
+      <p class="leadership-sub reveal d2">Built by students who believe the best conversations start with the right people in the room.</p>
+    </div>
+
+    <!-- ── CO-FOUNDERS ── -->
+    <div class="team-divider reveal">
+      <div class="team-divider-line"></div>
+      <span class="team-divider-label">◆ &nbsp; Co-Founders &nbsp; ◆</span>
+      <div class="team-divider-line"></div>
+    </div>
+
+    <div class="founders-row">
+
+      <!-- Founder 1 -->
+      <div class="founder-card reveal d1">
+        <span class="founder-crown">Co-Founder</span>
+        <div class="member-avatar">
+          <div class="avatar-ring">
+            <span class="avatar-initials">A.S</span>
+          </div>
+          <div class="avatar-dot"></div>
+        </div>
+        <span class="role-badge">Co-Founder &amp; President</span>
+        <h3 class="member-name">Aryan Sharma</h3>
+        <p class="member-tagline">Philosophy · Political Theory · Debate Architecture</p>
+        <p class="founder-quote">Ideas without dialogue are just opinions waiting to become dogma.</p>
+      </div>
+
+      <!-- Founder 2 -->
+      <div class="founder-card reveal d2">
+        <span class="founder-crown">Co-Founder</span>
+        <div class="member-avatar">
+          <div class="avatar-ring">
+            <span class="avatar-initials">P.D</span>
+          </div>
+          <div class="avatar-dot"></div>
+        </div>
+        <span class="role-badge">Co-Founder &amp; Director</span>
+        <h3 class="member-name">Priya Deshmukh</h3>
+        <p class="member-tagline">Geopolitics · Ethics · Forum Design</p>
+        <p class="founder-quote">The most dangerous thing a student can do is stop asking why.</p>
+      </div>
+
+    </div>
+
+    <!-- ── COMMITTEE ── -->
+    <div class="team-divider reveal">
+      <div class="team-divider-line"></div>
+      <span class="team-divider-label">◆ &nbsp; Core Committee &nbsp; ◆</span>
+      <div class="team-divider-line"></div>
+    </div>
+
+    <div class="committee-row">
+
+      <!-- Member 1 -->
+      <div class="committee-card reveal d1">
+        <div class="member-avatar">
+          <div class="avatar-ring">
+            <span class="avatar-initials">R.K</span>
+          </div>
+        </div>
+        <span class="role-badge">Head</span>
+        <h3 class="member-name">Rohan Kulkarni</h3>
+        <p class="member-tagline">Research &amp; Curation</p>
+        <span class="domain-chip">Geopolitics</span>
+      </div>
+
+      <!-- Member 2 -->
+      <div class="committee-card reveal d2">
+        <div class="member-avatar">
+          <div class="avatar-ring">
+            <span class="avatar-initials">S.J</span>
+          </div>
+        </div>
+        <span class="role-badge">Head</span>
+        <h3 class="member-name">Sneha Joshi</h3>
+        <p class="member-tagline">Outreach &amp; Community</p>
+        <span class="domain-chip">Dialogue</span>
+      </div>
+
+      <!-- Member 3 -->
+      <div class="committee-card reveal d3">
+        <div class="member-avatar">
+          <div class="avatar-ring">
+            <span class="avatar-initials">A.M</span>
+          </div>
+        </div>
+        <span class="role-badge">Head</span>
+        <h3 class="member-name">Aditya More</h3>
+        <p class="member-tagline">Debate &amp; Format</p>
+        <span class="domain-chip">Debate</span>
+      </div>
+
+      <!-- Member 4 -->
+      <div class="committee-card reveal d4">
+        <div class="member-avatar">
+          <div class="avatar-ring">
+            <span class="avatar-initials">K.P</span>
+          </div>
+        </div>
+        <span class="role-badge">Head</span>
+        <h3 class="member-name">Kavya Patil</h3>
+        <p class="member-tagline">Content &amp; Writing</p>
+        <span class="domain-chip">Philosophy</span>
+      </div>
+
+      <!-- Member 5 -->
+      <div class="committee-card reveal d5">
+        <div class="member-avatar">
+          <div class="avatar-ring">
+            <span class="avatar-initials">V.N</span>
+          </div>
+        </div>
+        <span class="role-badge">Head</span>
+        <h3 class="member-name">Vivaan Nair</h3>
+        <p class="member-tagline">Digital &amp; Design</p>
+        <span class="domain-chip">Media</span>
+      </div>
+
+    </div>
+    <!-- end committee-row -->
+
+  </div>
+</section>
+
+<!-- ════ POLL ════ -->
+<section id="poll">
+  <div class="sep"></div>
+  <div class="container" style="padding-top:clamp(3.5rem,9vw,6rem);padding-bottom:clamp(3.5rem,9vw,6rem)">
+    <div style="text-align:center;margin-bottom:clamp(2rem,5vw,3rem)">
+      <p class="section-tag reveal">Think With Us</p>
+      <h2 class="section-title reveal d1">What Do <em style="color:var(--gold)">You</em> Believe?</h2>
+      <p class="section-body reveal d2" style="max-width:440px;margin:0 auto">Quick questions. Honest answers. See how your peers respond.</p>
+    </div>
+    <div class="poll-wrap reveal d2">
+      <p class="poll-q" id="poll-q"></p>
+      <div class="poll-opts" id="poll-opts"></div>
+      <button class="poll-next" id="poll-next">Next Question →</button>
+      <p class="poll-ctr" id="poll-ctr"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ EVENTS ════ -->
+<section id="events">
+  <div class="sep"></div>
+  <div class="container" style="padding-top:clamp(4rem,10vw,7rem);padding-bottom:clamp(4rem,10vw,7rem)">
+    <div class="events-header">
+      <p class="section-tag reveal" style="text-align:center">Coming Soon</p>
+      <h2 class="section-title reveal d1" style="text-align:center">Events &amp; Discussions</h2>
+    </div>
+    <div class="event-tease reveal d2">
+      <span class="event-badge">Season One — 2025</span>
+      <h3 class="event-title">The first Samvāda sessions are being planned.</h3>
+      <p class="event-body">Our inaugural season will include curated debate evenings, reading circles, and philosophical roundtables — designed for students who want more than a classroom can offer. Be the first to know when we launch.</p>
+      <div class="notify-form">
+        <input type="email" class="notify-input" placeholder="Your email address" id="notify-email" inputmode="email" autocomplete="email"/>
+        <button class="btn-notify" onclick="handleNotify()">Notify Me</button>
+      </div>
+      <p id="notify-msg">✓ You're on the list. We'll be in touch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CONTACT ════ -->
+<section id="contact">
+  <div class="sep"></div>
+  <div class="container" style="padding-top:clamp(4rem,10vw,7rem);padding-bottom:clamp(4rem,10vw,7rem)">
+    <div class="contact-grid">
+      <div>
+        <p class="section-tag reveal">Get in Touch</p>
+        <h2 class="section-title reveal d1">Join the<br>Conversation.</h2>
+        <p class="section-body reveal d2">Whether you want to become a member, collaborate, or simply ask a question — we'd love to hear from you.</p>
+        <div class="contact-channels">
+          <a class="contact-item reveal d1" href="https://instagram.com/samvada_forum" target="_blank">
+            <div class="ci-icon">📸</div>
+            <div><div class="ci-label">Instagram</div><div class="ci-val">@samvada_forum</div></div>
+          </a>
+          <a class="contact-item reveal d2" href="mailto:samvada.official@gmail.com">
+            <div class="ci-icon">✉️</div>
+            <div><div class="ci-label">Email</div><div class="ci-val">samvada.official@gmail.com</div></div>
+          </a>
+          <a class="contact-item reveal d3" href="tel:+919999999999">
+            <div class="ci-icon">📞</div>
+            <div><div class="ci-label">Phone / WhatsApp</div><div class="ci-val">+91 99999 99999</div></div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-form-panel reveal d2">
+        <h3>Send a message</h3>
+        <div class="form-field"><label for="cf-name">Your Name</label><input id="cf-name" type="text" placeholder="Full name" autocomplete="name"/></div>
+        <div class="form-field"><label for="cf-email">Email</label><input id="cf-email" type="email" placeholder="you@example.com" inputmode="email" autocomplete="email"/></div>
+        <div class="form-field"><label for="cf-msg">Message</label><textarea id="cf-msg" rows="4" placeholder="Tell us why you want to join, or ask anything…"></textarea></div>
+        <div id="cf-status" style="display:none;margin-bottom:.75rem;font-family:var(--sans);font-size:.82rem;padding:.65rem 1rem;border-radius:2px;"></div>
+        <button class="form-submit" id="cf-btn" onclick="handleContact(this)">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">Samv<span>ā</span>da</div>
+      <div class="footer-orn"><div class="footer-orn-line"></div><span style="font-family:var(--serif);font-size:.75rem">◆</span><div class="footer-orn-line"></div></div>
+      <div class="footer-quote">"Think Beyond Borders."</div>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#focus">Focus</a>
+        <a href="#mission">Mission</a>
+        <a href="#leadership">Leadership</a>
+        <a href="#events">Events</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-copy">© 2025 Samvāda Forum · Nashik, India · Student-led · Independent · Intellectual</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+/* ── NAV ── */
+const navbar=document.getElementById('navbar'),ham=document.getElementById('ham'),mob=document.getElementById('mob-menu');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',scrollY>50),{passive:true});
+ham.addEventListener('click',()=>{const o=mob.classList.toggle('open');ham.classList.toggle('open',o);document.body.style.overflow=o?'hidden':''});
+function closeMob(){mob.classList.remove('open');ham.classList.remove('open');document.body.style.overflow=''}
+
+/* ── HERO CANVAS ── */
+(function(){
+  const cv=document.getElementById('hero-canvas'),ctx=cv.getContext('2d');
+  let W,H,pts=[];
+  const isMob=()=>innerWidth<680;
+  function resize(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight}
+  window.addEventListener('resize',resize,{passive:true});resize();
+  class P{
+    constructor(){this.r()}
+    r(){this.x=Math.random()*W;this.y=Math.random()*H;this.rad=Math.random()*1.2+.3;this.vx=(Math.random()-.5)*.2;this.vy=(Math.random()-.5)*.2;this.t=Math.random();this.s=Math.random()*.004+.001}
+    tick(){this.x+=this.vx;this.y+=this.vy;this.t+=this.s;if(this.t>1||this.x<0||this.x>W||this.y<0||this.y>H)this.r()}
+    draw(){const a=Math.sin(this.t*Math.PI)*.42;ctx.beginPath();ctx.arc(this.x,this.y,this.rad,0,6.28);ctx.fillStyle=`rgba(201,168,76,${a})`;ctx.fill()}
+  }
+  function fill(){pts=Array.from({length:isMob()?40:75},()=>new P())}
+  fill();window.addEventListener('resize',fill,{passive:true});
+  function lines(){const L=85;for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<L){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(201,168,76,${(1-d/L)*.05})`;ctx.lineWidth=.5;ctx.stroke()}}}
+  let raf;
+  function loop(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.tick();p.draw()});if(!isMob())lines();raf=requestAnimationFrame(loop)}
+  document.addEventListener('visibilitychange',()=>document.hidden?cancelAnimationFrame(raf):loop());
+  loop();
+})();
+
+/* ── SCROLL REVEAL ── */
+const obs=new IntersectionObserver(e=>e.forEach(n=>{if(n.isIntersecting){n.target.classList.add('visible');obs.unobserve(n.target)}}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal,.why-point').forEach(el=>obs.observe(el));
+
+/* ── QUOTE CAROUSEL ── */
+(function(){
+  const cards=Array.from(document.querySelectorAll('.quote-card'));
+  const nav=document.getElementById('q-nav');
+  const prev=document.getElementById('q-prev'),next=document.getElementById('q-next');
+  let cur=0;
+  cards.forEach((_,i)=>{
+    const b=document.createElement('button');
+    b.className='q-dot-btn'+(i===0?' active':'');
+    b.setAttribute('aria-label',`Quote ${i+1}`);
+    b.innerHTML='<span class="q-dot-inner"></span>';
+    b.onclick=()=>go(i);
+    nav.insertBefore(b,next);
+  });
+  const dots=()=>Array.from(nav.querySelectorAll('.q-dot-btn'));
+  function go(n){
+    if(n===cur)return;
+    cards[cur].classList.add('exit');
+    const old=cur;cur=(n+cards.length)%cards.length;
+    setTimeout(()=>{cards[old].classList.remove('active','exit');cards[cur].classList.add('active');dots().forEach((d,i)=>d.classList.toggle('active',i===cur))},50);
+  }
+  prev.onclick=()=>go(cur-1);next.onclick=()=>go(cur+1);
+  let t=setInterval(()=>go(cur+1),5000);
+  const rt=()=>{clearInterval(t);t=setInterval(()=>go(cur+1),5000)};
+  prev.addEventListener('click',rt);next.addEventListener('click',rt);
+  const wrap=document.getElementById('q-cards');
+  let tx=0;
+  wrap.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+  wrap.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>38){go(d>0?cur+1:cur-1);rt()}},{passive:true});
+})();
+
+/* ── POLL ── */
+(function(){
+  const qs=[
+    {q:"Should free speech have limits when it causes harm?",opts:["Yes — harm is a valid limit","No — speech must be absolute","Depends on context","The question is flawed"],ans:[41,18,35,6]},
+    {q:"Can a nation be truly democratic if it is also deeply unequal?",opts:["No — equality is essential","Yes — democracy is about process","Partially, but not fully","Democracy is the wrong frame"],ans:[38,22,30,10]},
+    {q:"Is philosophy relevant to solving real-world problems?",opts:["Absolutely — it's foundational","Somewhat — but impractical","Rarely — action matters more","Only when grounded in science"],ans:[49,25,12,14]},
+    {q:"Who holds more power in the modern world?",opts:["Governments","Corporations","Social media / public opinion","Individuals with ideas"],ans:[20,35,30,15]},
+    {q:"Is it possible to be fully objective in debate?",opts:["Yes, with discipline","No — we're all biased","Only partially","It's the wrong goal"],ans:[12,44,32,12]}
+  ];
+  let qi=0,done=false;
+  const qEl=document.getElementById('poll-q'),opEl=document.getElementById('poll-opts'),nxtBtn=document.getElementById('poll-next'),ctrEl=document.getElementById('poll-ctr');
+  function render(){
+    const Q=qs[qi];done=false;qEl.textContent=Q.q;opEl.innerHTML='';nxtBtn.classList.remove('show');
+    ctrEl.textContent=`Question ${qi+1} of ${qs.length}`;
+    Q.opts.forEach((o,i)=>{
+      const b=document.createElement('button');b.className='poll-opt';
+      b.innerHTML=`<div class="poll-bar"></div><span class="poll-opt-txt">${o}</span><span class="poll-pct"></span>`;
+      b.addEventListener('click',()=>{
+        if(done)return;done=true;b.style.borderColor='var(--gold)';
+        const total=Q.ans.reduce((a,v)=>a+v,0);
+        Array.from(opEl.children).forEach((btn,j)=>{
+          const pct=Math.round(Q.ans[j]/total*100);
+          btn.querySelector('.poll-bar').style.width=pct+'%';
+          btn.querySelector('.poll-pct').textContent=pct+'%';
+          btn.classList.add('revealed');
+        });
+        nxtBtn.classList.add('show');
+      },{once:true});
+      opEl.appendChild(b);
+    });
+  }
+  nxtBtn.onclick=()=>{qi=(qi+1)%qs.length;render()};
+  render();
+})();
+
+/* ── NOTIFY ── */
+function handleNotify(){
+  const i=document.getElementById('notify-email');
+  if(!i.value||!i.value.includes('@')){i.style.borderColor='#c0392b';return}
+  document.getElementById('notify-msg').style.display='block';i.value='';i.style.borderColor='';
+}
+
+/* ── CONTACT FORM — EmailJS ── */
+async function handleContact(btn){
+  const name=document.getElementById('cf-name').value.trim();
+  const email=document.getElementById('cf-email').value.trim();
+  const message=document.getElementById('cf-msg').value.trim();
+  const status=document.getElementById('cf-status');
+  if(!name){showStatus('error','Please enter your name.');return}
+  if(!email||!email.includes('@')){showStatus('error','Please enter a valid email address.');return}
+  if(!message){showStatus('error','Please write a message before sending.');return}
+  btn.disabled=true;btn.textContent='Sending…';btn.style.opacity='.7';
+  try{
+    await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{
+      from_name:name,from_email:email,message:message,reply_to:email,
+      to_email:'samvada.official@gmail.com',
+      sent_at:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}),
+    });
+    showStatus('success','✓ Message sent! We\'ll get back to you soon.');
+    btn.textContent='✓ Sent Successfully';
+    btn.style.cssText='background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.35);opacity:1;width:100%;min-height:48px;border-radius:2px;font-family:var(--sans);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;cursor:default;';
+    document.getElementById('cf-name').value='';
+    document.getElementById('cf-email').value='';
+    document.getElementById('cf-msg').value='';
+  }catch(err){
+    showStatus('error','✗ Something went wrong. Please email us at samvada.official@gmail.com');
+    btn.disabled=false;btn.textContent='Try Again →';btn.style.opacity='1';
+  }
+}
+function showStatus(type,msg){
+  const el=document.getElementById('cf-status');
+  el.textContent=msg;el.style.display='block';
+  el.style.cssText=type==='success'
+    ?'display:block;margin-bottom:.75rem;font-family:var(--sans);font-size:.82rem;padding:.65rem 1rem;border-radius:2px;background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.25);'
+    :'display:block;margin-bottom:.75rem;font-family:var(--sans);font-size:.82rem;padding:.65rem 1rem;border-radius:2px;background:rgba(180,60,60,.1);color:#e07070;border:1px solid rgba(180,60,60,.25);';
+}
+</script>
+</body>
+</html>
