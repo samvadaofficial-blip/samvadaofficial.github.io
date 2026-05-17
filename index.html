@@ -8,13 +8,86 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>
-    const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
-    const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-  </script>
+
+  <!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║           GOOGLE APPS SCRIPT SETUP — READ THIS FIRST        ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║                                                              ║
+  ║  STEP 1 — Create the Apps Script                            ║
+  ║  • Go to: script.google.com                                 ║
+  ║  • Click "New Project"                                      ║
+  ║  • Delete all existing code                                 ║
+  ║  • Paste the ENTIRE Apps Script code from the               ║
+  ║    README.md file (or the block below this comment)         ║
+  ║                                                              ║
+  ║  STEP 2 — Deploy as Web App                                 ║
+  ║  • Click "Deploy" → "New Deployment"                        ║
+  ║  • Type: "Web app"                                          ║
+  ║  • Execute as: "Me"                                         ║
+  ║  • Who has access: "Anyone"                                 ║
+  ║  • Click "Deploy" → Authorize → Copy the Web App URL        ║
+  ║                                                              ║
+  ║  STEP 3 — Paste your URL below                             ║
+  ║  • Replace YOUR_APPS_SCRIPT_URL with the copied URL         ║
+  ║                                                              ║
+  ╚══════════════════════════════════════════════════════════════╝
+
+  ── GOOGLE APPS SCRIPT CODE (paste at script.google.com) ──────
+
+  const RECIPIENT = "samvada.official@gmail.com";
+
+  function doPost(e) {
+    try {
+      const data = JSON.parse(e.postData.contents);
+      const type = data.type || "contact";
+
+      let subject, body;
+
+      if (type === "notify") {
+        subject = "📬 New Event Notification Request — Samvāda";
+        body = `Someone wants to be notified about Samvāda events.\n\n`
+             + `Email: ${data.email}\n`
+             + `Time (IST): ${data.sent_at}\n\n`
+             + `— Samvāda Website`;
+      } else {
+        subject = `💬 New Message from ${data.from_name} — Samvāda Website`;
+        body = `You have a new message from the Samvāda website.\n\n`
+             + `──────────────────────────────\n`
+             + `Name:    ${data.from_name}\n`
+             + `Email:   ${data.from_email}\n`
+             + `Time:    ${data.sent_at} (IST)\n`
+             + `──────────────────────────────\n\n`
+             + `Message:\n${data.message}\n\n`
+             + `Reply directly to: ${data.from_email}\n`
+             + `— Samvāda Website`;
+      }
+
+      GmailApp.sendEmail(RECIPIENT, subject, body, {
+        replyTo: data.from_email || RECIPIENT,
+        name: "Samvāda Website"
+      });
+
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: true }))
+        .setMimeType(ContentService.MimeType.JSON);
+
+    } catch (err) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: false, error: err.message }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
+  function doGet(e) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "Samvāda Apps Script is live." }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  ─────────────────────────────────────────────────────────────
+  -->
+
   <style>
 /* ════════════════════════════════════════
    TOKENS
@@ -69,7 +142,7 @@ button{cursor:pointer;font-family:inherit}
 @keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(3deg)}}
 @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px) rotate(-2deg)}}
 @keyframes glowDot{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.5)}50%{box-shadow:0 0 0 5px rgba(201,168,76,0)}}
-@keyframes borderPulse{0%,100%{border-color:rgba(201,168,76,.2)}50%{border-color:rgba(201,168,76,.5)}}
+@keyframes spin-loader{to{transform:rotate(360deg)}}
 
 /* ════════════════════════════════════════
    NAV
@@ -227,220 +300,53 @@ nav.scrolled{background:rgba(13,27,46,.92);backdrop-filter:blur(20px);-webkit-ba
 @media(max-width:640px){.why-inner{grid-template-columns:1fr}.orbit-wrap{order:-1;width:200px;height:200px}}
 
 /* ════════════════════════════════════════
-   LEADERSHIP  ← NEW
+   LEADERSHIP
 ════════════════════════════════════════ */
-#leadership{
-  padding:clamp(4rem,10vw,7rem) 0;
-  background:var(--navy-mid);
-  position:relative; overflow:hidden;
-}
-/* giant decorative circle */
-#leadership::after{
-  content:'';
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:min(800px,140vw);
-  height:min(800px,140vw);
-  border-radius:50%;
-  border:1px solid rgba(201,168,76,.04);
-  pointer-events:none;
-}
+#leadership{padding:clamp(4rem,10vw,7rem) 0;background:var(--navy-mid);position:relative;overflow:hidden}
+#leadership::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(800px,140vw);height:min(800px,140vw);border-radius:50%;border:1px solid rgba(201,168,76,.04);pointer-events:none}
 .leadership-header{text-align:center;margin-bottom:clamp(2.5rem,7vw,4.5rem)}
 .leadership-header .section-title{margin-bottom:.6rem}
 .leadership-sub{font-family:var(--serif2);font-size:clamp(.9rem,2.3vw,1.05rem);color:rgba(245,240,232,.45);font-style:italic;font-weight:300}
-
-/* ── founders row ── */
-.founders-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:clamp(1.2rem,3.5vw,2rem);
-  max-width:720px;
-  margin:0 auto clamp(2.5rem,6vw,3.5rem);
-}
-
-/* ── committee row ── */
-.committee-row{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:clamp(.8rem,2vw,1.2rem);
-}
-
-/* ── Founder card — large, cinematic ── */
-.founder-card{
-  background:linear-gradient(145deg,#172847 0%,#0f1e36 100%);
-  border:1px solid rgba(201,168,76,.28);
-  border-radius:6px;
-  padding:clamp(2rem,5vw,2.8rem) clamp(1.4rem,4vw,2rem);
-  position:relative; overflow:hidden;
-  text-align:center;
-  transition:border-color .38s,transform .38s,box-shadow .38s;
-  -webkit-tap-highlight-color:transparent;
-}
-.founder-card::before{
-  content:'';
-  position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-}
-.founder-card::after{
-  content:'';
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(201,168,76,.07),transparent);
-  pointer-events:none;
-}
-.founder-card:hover,.founder-card:active{
-  border-color:rgba(201,168,76,.65);
-  transform:translateY(-6px);
-  box-shadow:0 24px 64px rgba(0,0,0,.5),0 0 0 1px rgba(201,168,76,.1);
-}
-/* crown ornament top-right */
-.founder-crown{
-  position:absolute;top:1rem;right:1.1rem;
-  font-family:var(--sans);font-size:.55rem;
-  letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(201,168,76,.5);
-  background:rgba(201,168,76,.08);
-  border:1px solid rgba(201,168,76,.2);
-  padding:.2rem .55rem;border-radius:20px;
-}
-
-/* ── Committee card — compact, elegant ── */
-.committee-card{
-  background:rgba(13,27,46,.8);
-  border:1px solid rgba(201,168,76,.14);
-  border-radius:4px;
-  padding:clamp(1.2rem,3vw,1.6rem) clamp(.8rem,2vw,1.1rem);
-  position:relative; overflow:hidden;
-  text-align:center;
-  transition:border-color .3s,transform .3s,box-shadow .3s;
-  -webkit-tap-highlight-color:transparent;
-}
-.committee-card::before{
-  content:'';
-  position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.committee-card:hover,.committee-card:active{
-  border-color:rgba(201,168,76,.38);
-  transform:translateY(-4px);
-  box-shadow:0 12px 36px rgba(0,0,0,.4);
-}
+.founders-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.2rem,3.5vw,2rem);max-width:720px;margin:0 auto clamp(2.5rem,6vw,3.5rem)}
+.committee-row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(.8rem,2vw,1.2rem)}
+.founder-card{background:linear-gradient(145deg,#172847 0%,#0f1e36 100%);border:1px solid rgba(201,168,76,.28);border-radius:6px;padding:clamp(2rem,5vw,2.8rem) clamp(1.4rem,4vw,2rem);position:relative;overflow:hidden;text-align:center;transition:border-color .38s,transform .38s,box-shadow .38s;-webkit-tap-highlight-color:transparent}
+.founder-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.founder-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(201,168,76,.07),transparent);pointer-events:none}
+.founder-card:hover,.founder-card:active{border-color:rgba(201,168,76,.65);transform:translateY(-6px);box-shadow:0 24px 64px rgba(0,0,0,.5),0 0 0 1px rgba(201,168,76,.1)}
+.founder-crown{position:absolute;top:1rem;right:1.1rem;font-family:var(--sans);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.5);background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:.2rem .55rem;border-radius:20px}
+.committee-card{background:rgba(13,27,46,.8);border:1px solid rgba(201,168,76,.14);border-radius:4px;padding:clamp(1.2rem,3vw,1.6rem) clamp(.8rem,2vw,1.1rem);position:relative;overflow:hidden;text-align:center;transition:border-color .3s,transform .3s,box-shadow .3s;-webkit-tap-highlight-color:transparent}
+.committee-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.committee-card:hover,.committee-card:active{border-color:rgba(201,168,76,.38);transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.4)}
 .committee-card:hover::before,.committee-card:active::before{opacity:1}
-
-/* ── shared avatar ── */
-.member-avatar{
-  position:relative;
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto clamp(.9rem,2.5vw,1.2rem);
-}
-.avatar-ring{
-  border-radius:50%;
-  border:1px solid rgba(201,168,76,.3);
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#1e3a6a 0%,#0e1e38 100%);
-  position:relative; overflow:hidden;
-  transition:border-color .3s,box-shadow .3s;
-}
-.founder-card .avatar-ring{
-  width:clamp(72px,14vw,92px);
-  height:clamp(72px,14vw,92px);
-}
-.committee-card .avatar-ring{
-  width:clamp(52px,10vw,66px);
-  height:clamp(52px,10vw,66px);
-}
-.avatar-ring::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 35% 30%,rgba(201,168,76,.18),transparent 60%);
-}
-.avatar-initials{
-  font-family:var(--serif);font-weight:300;
-  color:var(--gold);position:relative;z-index:1;letter-spacing:.06em;
-}
+.member-avatar{position:relative;display:flex;align-items:center;justify-content:center;margin:0 auto clamp(.9rem,2.5vw,1.2rem)}
+.avatar-ring{border-radius:50%;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1e3a6a 0%,#0e1e38 100%);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.founder-card .avatar-ring{width:clamp(72px,14vw,92px);height:clamp(72px,14vw,92px)}
+.committee-card .avatar-ring{width:clamp(52px,10vw,66px);height:clamp(52px,10vw,66px)}
+.avatar-ring::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 35% 30%,rgba(201,168,76,.18),transparent 60%)}
+.avatar-initials{font-family:var(--serif);font-weight:300;color:var(--gold);position:relative;z-index:1;letter-spacing:.06em}
 .founder-card .avatar-initials{font-size:clamp(1.3rem,3.5vw,1.7rem)}
 .committee-card .avatar-initials{font-size:clamp(.95rem,2.5vw,1.2rem)}
-.avatar-dot{
-  position:absolute;bottom:1px;right:1px;
-  width:11px;height:11px;border-radius:50%;
-  background:var(--gold);border:2px solid var(--navy-mid);
-  animation:glowDot 2.5s ease-in-out infinite;
-}
-.founder-card:hover .avatar-ring,.founder-card:active .avatar-ring{
-  border-color:var(--gold);
-  box-shadow:0 0 20px rgba(201,168,76,.25);
-}
-.committee-card:hover .avatar-ring,.committee-card:active .avatar-ring{
-  border-color:rgba(201,168,76,.6);
-}
-
-/* ── role badge ── */
-.role-badge{
-  display:inline-block;
-  font-family:var(--sans);
-  letter-spacing:.2em;text-transform:uppercase;
-  color:var(--gold);
-  border:1px solid rgba(201,168,76,.28);
-  border-radius:20px;
-  margin-bottom:.65rem;
-}
+.avatar-dot{position:absolute;bottom:1px;right:1px;width:11px;height:11px;border-radius:50%;background:var(--gold);border:2px solid var(--navy-mid);animation:glowDot 2.5s ease-in-out infinite}
+.founder-card:hover .avatar-ring,.founder-card:active .avatar-ring{border-color:var(--gold);box-shadow:0 0 20px rgba(201,168,76,.25)}
+.committee-card:hover .avatar-ring,.committee-card:active .avatar-ring{border-color:rgba(201,168,76,.6)}
+.role-badge{display:inline-block;font-family:var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.28);border-radius:20px;margin-bottom:.65rem}
 .founder-card .role-badge{font-size:clamp(.52rem,1.4vw,.6rem);padding:.22rem .75rem}
 .committee-card .role-badge{font-size:clamp(.48rem,1.2vw,.55rem);padding:.18rem .6rem}
-
-/* ── name ── */
-.member-name{
-  font-family:var(--serif);font-weight:500;color:var(--ivory);
-  line-height:1.2;margin-bottom:.35rem;
-}
+.member-name{font-family:var(--serif);font-weight:500;color:var(--ivory);line-height:1.2;margin-bottom:.35rem}
 .founder-card .member-name{font-size:clamp(1.15rem,3.2vw,1.5rem)}
 .committee-card .member-name{font-size:clamp(.9rem,2.2vw,1.1rem)}
-
-/* ── tagline / domain ── */
-.member-tagline{
-  font-family:var(--serif2);font-weight:300;font-style:italic;color:rgba(245,240,232,.45);
-}
+.member-tagline{font-family:var(--serif2);font-weight:300;font-style:italic;color:rgba(245,240,232,.45)}
 .founder-card .member-tagline{font-size:clamp(.82rem,2vw,.95rem);line-height:1.6;margin-bottom:1.1rem}
 .committee-card .member-tagline{font-size:clamp(.7rem,1.8vw,.78rem);line-height:1.5}
-
-/* ── founder quote ── */
-.founder-quote{
-  font-family:var(--serif);font-size:clamp(.88rem,2.2vw,1rem);
-  font-style:italic;color:rgba(245,240,232,.55);
-  border-top:1px solid rgba(201,168,76,.14);
-  padding-top:.9rem;margin-top:.2rem;line-height:1.6;
-  position:relative;z-index:1;
-}
+.founder-quote{font-family:var(--serif);font-size:clamp(.88rem,2.2vw,1rem);font-style:italic;color:rgba(245,240,232,.55);border-top:1px solid rgba(201,168,76,.14);padding-top:.9rem;margin-top:.2rem;line-height:1.6;position:relative;z-index:1}
 .founder-quote::before{content:'"';margin-right:.15rem;color:var(--gold);opacity:.6}
 .founder-quote::after{content:'"';margin-left:.1rem;color:var(--gold);opacity:.6}
-
-/* ── domain chip on committee ── */
-.domain-chip{
-  display:inline-block;margin-top:.55rem;
-  font-family:var(--sans);font-size:clamp(.48rem,1.3vw,.58rem);
-  letter-spacing:.14em;text-transform:uppercase;
-  background:rgba(201,168,76,.08);
-  color:rgba(201,168,76,.6);
-  border:1px solid rgba(201,168,76,.12);
-  padding:.18rem .55rem;border-radius:3px;
-}
-
-/* ── team divider ornament ── */
-.team-divider{
-  display:flex;align-items:center;justify-content:center;
-  gap:1.2rem;margin-bottom:clamp(2rem,5vw,3rem);
-}
+.domain-chip{display:inline-block;margin-top:.55rem;font-family:var(--sans);font-size:clamp(.48rem,1.3vw,.58rem);letter-spacing:.14em;text-transform:uppercase;background:rgba(201,168,76,.08);color:rgba(201,168,76,.6);border:1px solid rgba(201,168,76,.12);padding:.18rem .55rem;border-radius:3px}
+.team-divider{display:flex;align-items:center;justify-content:center;gap:1.2rem;margin-bottom:clamp(2rem,5vw,3rem)}
 .team-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.2),transparent)}
-.team-divider-label{
-  font-family:var(--sans);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
-  color:rgba(201,168,76,.45);white-space:nowrap;
-}
-
-/* responsive */
+.team-divider-label{font-family:var(--sans);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(201,168,76,.45);white-space:nowrap}
 @media(max-width:900px){.committee-row{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:600px){
-  .founders-row{grid-template-columns:1fr;max-width:340px}
-  .committee-row{grid-template-columns:repeat(2,1fr)}
-}
+@media(max-width:600px){.founders-row{grid-template-columns:1fr;max-width:340px}.committee-row{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:380px){.committee-row{grid-template-columns:1fr}}
 
 /* ════════════════════════════════════════
@@ -476,9 +382,13 @@ nav.scrolled{background:rgba(13,27,46,.92);backdrop-filter:blur(20px);-webkit-ba
 .notify-input{flex:1;min-width:160px;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.25);color:var(--ivory);border-radius:2px;padding:.75rem 1rem;font-family:var(--sans);font-size:16px;outline:none;transition:border-color .25s;min-height:46px}
 .notify-input::placeholder{color:rgba(245,240,232,.3)}
 .notify-input:focus{border-color:var(--gold)}
-.btn-notify{background:var(--gold);color:var(--navy);border:none;border-radius:2px;padding:.75rem 1.3rem;font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:background .25s;min-height:46px;-webkit-tap-highlight-color:transparent}
+/* notify states */
+.btn-notify{background:var(--gold);color:var(--navy);border:none;border-radius:2px;padding:.75rem 1.3rem;font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:background .25s,opacity .25s;min-height:46px;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;gap:.4rem}
 .btn-notify:hover,.btn-notify:active{background:var(--gold-lt)}
-#notify-msg{margin-top:.8rem;font-family:var(--sans);font-size:.8rem;color:var(--gold);display:none}
+.btn-notify:disabled{opacity:.6;cursor:not-allowed}
+#notify-status{margin-top:.9rem;font-family:var(--sans);font-size:.82rem;padding:.6rem 1rem;border-radius:2px;display:none}
+#notify-status.success{display:block;background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.25)}
+#notify-status.error{display:block;background:rgba(180,60,60,.1);color:#e07070;border:1px solid rgba(180,60,60,.25)}
 
 /* ════════════════════════════════════════
    CONTACT
@@ -499,8 +409,16 @@ nav.scrolled{background:rgba(13,27,46,.92);backdrop-filter:blur(20px);-webkit-ba
 .form-field input,.form-field textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.18);color:var(--ivory);border-radius:2px;padding:.72rem .9rem;font-family:var(--serif2);font-size:16px;outline:none;transition:border-color .25s;resize:none}
 .form-field input::placeholder,.form-field textarea::placeholder{color:rgba(245,240,232,.25)}
 .form-field input:focus,.form-field textarea:focus{border-color:var(--gold)}
-.form-submit{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:2px;padding:.9rem;font-family:var(--sans);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;transition:background .25s;min-height:48px;-webkit-tap-highlight-color:transparent}
+/* submit button states */
+.form-submit{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:2px;padding:.9rem;font-family:var(--sans);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;transition:background .25s,opacity .25s;min-height:48px;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;gap:.5rem}
 .form-submit:hover,.form-submit:active{background:var(--gold-lt)}
+.form-submit:disabled{opacity:.6;cursor:not-allowed}
+/* spinner */
+.spinner{width:14px;height:14px;border:2px solid rgba(13,27,46,.3);border-top-color:var(--navy);border-radius:50%;animation:spin-loader .7s linear infinite;flex-shrink:0}
+/* status box */
+#cf-status{display:none;margin-bottom:.8rem;font-family:var(--sans);font-size:.82rem;padding:.7rem 1rem;border-radius:2px;line-height:1.5}
+#cf-status.success{display:block;background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.25)}
+#cf-status.error{display:block;background:rgba(180,60,60,.1);color:#e07070;border:1px solid rgba(180,60,60,.25)}
 @media(max-width:640px){.contact-grid{grid-template-columns:1fr}}
 
 /* ════════════════════════════════════════
@@ -571,7 +489,7 @@ footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.15);padding:
       <a href="#about"   class="btn btn-outline">Learn More</a>
     </div>
   </div>
-  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+  <div class="hero-scroll"><div class="scroll-line"></div></div>
 </section>
 
 <!-- ════ MARQUEE ════ -->
@@ -693,13 +611,13 @@ footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.15);padding:
       <div class="mv-panel reveal">
         <span class="mv-label">Mission</span>
         <h3 class="mv-title">To create a platform where students engage in thoughtful discussion.</h3>
-        <p class="mv-body">Samvāda exists to give students a space to challenge assumptions, build intellectual confidence, and develop the habit of engaging meaningfully with the world's most important ideas. through reasoned debate and respectful dialogue.</p>
+        <p class="mv-body">Samvāda exists to give students a space to challenge assumptions, build intellectual confidence, and develop the habit of engaging meaningfully with the world's most important ideas — through reasoned debate and respectful dialogue.</p>
         <p class="mv-body" style="margin-top:.9rem">A student who argues well, listens carefully, and thinks clearly is prepared for more than any exam can measure.</p>
       </div>
       <div class="mv-panel reveal d2">
         <span class="mv-label">Vision</span>
         <h3 class="mv-title">A generation that thinks, communicates, and engages responsibly.</h3>
-        <p class="mv-body">We envision a community of young thinkers. rooted in Indian intellectual traditions and oriented toward global conversations. who engage with politics, philosophy, and global affairs not as spectators, but as participants.</p>
+        <p class="mv-body">We envision a community of young thinkers — rooted in Indian intellectual traditions and oriented toward global conversations — who engage with politics, philosophy, and global affairs not as spectators, but as participants.</p>
         <p class="mv-body" style="margin-top:.9rem">Students who speak with precision, argue with evidence, and carry the rare habit of changing their minds when the better argument demands it.</p>
       </div>
     </div>
@@ -738,35 +656,25 @@ footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.15);padding:
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     LEADERSHIP
-════════════════════════════════════════ -->
+<!-- ════ LEADERSHIP ════ -->
 <section id="leadership">
   <div class="sep"></div>
   <div class="container" style="padding-top:clamp(4rem,10vw,7rem);padding-bottom:clamp(4rem,10vw,7rem)">
-
     <div class="leadership-header">
       <p class="section-tag reveal" style="text-align:center">The People Behind the Ideas</p>
       <h2 class="section-title reveal d1" style="text-align:center">Our Leadership</h2>
       <p class="leadership-sub reveal d2">Built by students who believe the best conversations start with the right people in the room.</p>
     </div>
-
-    <!-- ── CO-FOUNDERS ── -->
-   <div class="team-divider reveal">
+    <div class="team-divider reveal">
       <div class="team-divider-line"></div>
       <span class="team-divider-label">◆ &nbsp; Co-Founders &nbsp; ◆</span>
       <div class="team-divider-line"></div>
     </div>
-
     <div class="founders-row">
-
-      <!-- Founder 1 -->
       <div class="founder-card reveal d1">
         <span class="founder-crown">Co-Founder</span>
         <div class="member-avatar">
-          <div class="avatar-ring">
-            <span class="avatar-initials">P.B</span>
-          </div>
+          <div class="avatar-ring"><span class="avatar-initials">P.B</span></div>
           <div class="avatar-dot"></div>
         </div>
         <span class="role-badge">Co-Founder &amp; President</span>
@@ -774,14 +682,10 @@ footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.15);padding:
         <p class="member-tagline">Foreign Politics · Foreign Policies · Debate Architecture</p>
         <p class="founder-quote">The most dangerous thing a human can do is stop asking why.</p>
       </div>
-
-      <!-- Founder 2 -->
       <div class="founder-card reveal d2">
         <span class="founder-crown">Co-Founder</span>
         <div class="member-avatar">
-          <div class="avatar-ring">
-            <span class="avatar-initials">R.B</span>
-          </div>
+          <div class="avatar-ring"><span class="avatar-initials">R.B</span></div>
           <div class="avatar-dot"></div>
         </div>
         <span class="role-badge">Co-Founder &amp; Director</span>
@@ -789,89 +693,51 @@ footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.15);padding:
         <p class="member-tagline">Philosophy · Literature · Music</p>
         <p class="founder-quote">tat tvam asi.</p>
       </div>
-
     </div>
-
-    <!-- ── COMMITTEE ── -->
-     <div class="team-divider reveal">
+    <div class="team-divider reveal">
       <div class="team-divider-line"></div>
       <span class="team-divider-label">◆ &nbsp; Core Committee &nbsp; ◆</span>
       <div class="team-divider-line"></div>
     </div>
-
     <div class="committee-row">
-
-      <!-- Member 1 -->
       <div class="committee-card reveal d1">
-        <div class="member-avatar">
-          <div class="avatar-ring">
-            <span class="avatar-initials">A.U</span>
-          </div>
-        </div>
+        <div class="member-avatar"><div class="avatar-ring"><span class="avatar-initials">A.U</span></div></div>
         <span class="role-badge">OCM</span>
         <h3 class="member-name">Abhir Upadhye</h3>
-        <p class="member-tagline">Digital design &amp; Media</p>
+        <p class="member-tagline">Digital Design &amp; Media</p>
         <span class="domain-chip">Media</span>
       </div>
-
-      <!-- Member 2 -->
       <div class="committee-card reveal d2">
-        <div class="member-avatar">
-          <div class="avatar-ring">
-            <span class="avatar-initials">S.B</span>
-          </div>
-        </div>
+        <div class="member-avatar"><div class="avatar-ring"><span class="avatar-initials">S.B</span></div></div>
         <span class="role-badge">OCM</span>
         <h3 class="member-name">Shrimayi Belge</h3>
         <p class="member-tagline">Content &amp; Debate</p>
         <span class="domain-chip">Narrative</span>
       </div>
-
-      <!-- Member 3 -->
       <div class="committee-card reveal d3">
-        <div class="member-avatar">
-          <div class="avatar-ring">
-            <span class="avatar-initials">R.D</span>
-          </div>
-        </div>
+        <div class="member-avatar"><div class="avatar-ring"><span class="avatar-initials">R.D</span></div></div>
         <span class="role-badge">OCM</span>
         <h3 class="member-name">Rudhransh Deshpande</h3>
         <p class="member-tagline">Content &amp; Studio</p>
         <span class="domain-chip">Editorial</span>
       </div>
-
-      <!-- Member 4 -->
       <div class="committee-card reveal d4">
-        <div class="member-avatar">
-          <div class="avatar-ring">
-            <span class="avatar-initials">A.R</span>
-          </div>
-        </div>
+        <div class="member-avatar"><div class="avatar-ring"><span class="avatar-initials">A.R</span></div></div>
         <span class="role-badge">OCM</span>
         <h3 class="member-name">Aadhya Rao</h3>
         <p class="member-tagline">Finance &amp; Logistics</p>
         <span class="domain-chip">Strategy</span>
       </div>
-
-      <!-- Member 5 -->
       <div class="committee-card reveal d5">
-        <div class="member-avatar">
-          <div class="avatar-ring">
-            <span class="avatar-initials">D.G</span>
-          </div>
-        </div>
+        <div class="member-avatar"><div class="avatar-ring"><span class="avatar-initials">D.G</span></div></div>
         <span class="role-badge">OCM</span>
         <h3 class="member-name">Divya Gangwal</h3>
         <p class="member-tagline">Outreach &amp; Partnership</p>
-        <span class="domain-chip">Correspondense</span>
+        <span class="domain-chip">Correspondence</span>
       </div>
-
     </div>
-    <!-- end committee-row -->
-
   </div>
 </section>
-
 
 <!-- ════ POLL ════ -->
 <section id="poll">
@@ -905,9 +771,9 @@ footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.15);padding:
       <p class="event-body">Our inaugural season will include curated debate evenings, reading circles, and philosophical roundtables — designed for students who want more than a classroom can offer. Be the first to know when we launch.</p>
       <div class="notify-form">
         <input type="email" class="notify-input" placeholder="Your email address" id="notify-email" inputmode="email" autocomplete="email"/>
-        <button class="btn-notify" onclick="handleNotify()">Notify Me</button>
+        <button class="btn-notify" id="notify-btn" onclick="handleNotify()">Notify Me</button>
       </div>
-      <p id="notify-msg">✓ You're on the list. We'll be in touch.</p>
+      <div id="notify-status"></div>
     </div>
   </div>
 </section>
@@ -938,11 +804,11 @@ footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.15);padding:
       </div>
       <div class="contact-form-panel reveal d2">
         <h3>Send a message</h3>
+        <div id="cf-status"></div>
         <div class="form-field"><label for="cf-name">Your Name</label><input id="cf-name" type="text" placeholder="Full name" autocomplete="name"/></div>
         <div class="form-field"><label for="cf-email">Email</label><input id="cf-email" type="email" placeholder="you@example.com" inputmode="email" autocomplete="email"/></div>
         <div class="form-field"><label for="cf-msg">Message</label><textarea id="cf-msg" rows="4" placeholder="Tell us why you want to join, or ask anything…"></textarea></div>
-        <div id="cf-status" style="display:none;margin-bottom:.75rem;font-family:var(--sans);font-size:.82rem;padding:.65rem 1rem;border-radius:2px;"></div>
-        <button class="form-submit" id="cf-btn" onclick="handleContact(this)">Send Message →</button>
+        <button class="form-submit" id="cf-btn" onclick="handleContact()">Send Message →</button>
       </div>
     </div>
   </div>
@@ -972,6 +838,14 @@ footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.15);padding:
      JAVASCRIPT
 ════════════════════════════════════════ -->
 <script>
+/* ══════════════════════════════════════════════════════════════
+   ⚙️  CONFIGURATION — PASTE YOUR APPS SCRIPT URL HERE
+   After deploying your Google Apps Script as a Web App,
+   paste the URL below. It looks like:
+   https://script.google.com/macros/s/AKfycb.../exec
+══════════════════════════════════════════════════════════════ */
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+
 /* ── NAV ── */
 const navbar=document.getElementById('navbar'),ham=document.getElementById('ham'),mob=document.getElementById('mob-menu');
 window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',scrollY>50),{passive:true});
@@ -1070,46 +944,148 @@ document.querySelectorAll('.reveal,.why-point').forEach(el=>obs.observe(el));
   render();
 })();
 
-/* ── NOTIFY ── */
-function handleNotify(){
-  const i=document.getElementById('notify-email');
-  if(!i.value||!i.value.includes('@')){i.style.borderColor='#c0392b';return}
-  document.getElementById('notify-msg').style.display='block';i.value='';i.style.borderColor='';
+/* ══════════════════════════════════════════════════════════════
+   SHARED FETCH HELPER — sends data to Google Apps Script
+══════════════════════════════════════════════════════════════ */
+async function sendToScript(payload) {
+  /* Google Apps Script doesn't support CORS with JSON body on some
+     older deployments — we use no-cors mode. The request still
+     goes through; we just can't read the response body.
+     For full error detection, switch to "cors" after setting
+     Access-Control headers in your Apps Script doPost. */
+  const res = await fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',                     // required for Apps Script
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  /* no-cors always returns opaque response (status 0).
+     We treat a completed fetch (no network error) as success. */
+  return true;
 }
 
-/* ── CONTACT FORM — EmailJS ── */
-async function handleContact(btn){
-  const name=document.getElementById('cf-name').value.trim();
-  const email=document.getElementById('cf-email').value.trim();
-  const message=document.getElementById('cf-msg').value.trim();
-  const status=document.getElementById('cf-status');
-  if(!name){showStatus('error','Please enter your name.');return}
-  if(!email||!email.includes('@')){showStatus('error','Please enter a valid email address.');return}
-  if(!message){showStatus('error','Please write a message before sending.');return}
-  btn.disabled=true;btn.textContent='Sending…';btn.style.opacity='.7';
-  try{
-    await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{
-      from_name:name,from_email:email,message:message,reply_to:email,
-      to_email:'samvada.official@gmail.com',
-      sent_at:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}),
+/* ══════════════════════════════════════════════════════════════
+   NOTIFY ME FORM
+══════════════════════════════════════════════════════════════ */
+async function handleNotify() {
+  const input  = document.getElementById('notify-email');
+  const btn    = document.getElementById('notify-btn');
+  const status = document.getElementById('notify-status');
+  const email  = input.value.trim();
+
+  /* validation */
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    input.style.borderColor = '#c0392b';
+    input.focus();
+    return;
+  }
+  input.style.borderColor = '';
+
+  /* loading state */
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Sending…';
+  status.className = '';
+  status.style.display = 'none';
+
+  try {
+    await sendToScript({
+      type:     'notify',
+      email:    email,
+      sent_at:  new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
     });
-    showStatus('success','✓ Message sent! We\'ll get back to you soon.');
-    btn.textContent='✓ Sent Successfully';
-    btn.style.cssText='background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.35);opacity:1;width:100%;min-height:48px;border-radius:2px;font-family:var(--sans);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;cursor:default;';
-    document.getElementById('cf-name').value='';
-    document.getElementById('cf-email').value='';
-    document.getElementById('cf-msg').value='';
-  }catch(err){
-    showStatus('error','✗ Something went wrong. Please email us at samvada.official@gmail.com');
-    btn.disabled=false;btn.textContent='Try Again →';btn.style.opacity='1';
+
+    /* success */
+    status.className  = 'success';
+    status.textContent = '✓ You\'re on the list — we\'ll notify you when Season One launches.';
+    input.value = '';
+    btn.innerHTML = '✓ Done';
+    btn.style.background = 'rgba(201,168,76,.25)';
+    btn.style.color = 'var(--gold)';
+
+  } catch (err) {
+    /* error */
+    status.className  = 'error';
+    status.textContent = '✗ Something went wrong. Please email us at samvada.official@gmail.com';
+    btn.disabled = false;
+    btn.innerHTML = 'Notify Me';
   }
 }
-function showStatus(type,msg){
-  const el=document.getElementById('cf-status');
-  el.textContent=msg;el.style.display='block';
-  el.style.cssText=type==='success'
-    ?'display:block;margin-bottom:.75rem;font-family:var(--sans);font-size:.82rem;padding:.65rem 1rem;border-radius:2px;background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.25);'
-    :'display:block;margin-bottom:.75rem;font-family:var(--sans);font-size:.82rem;padding:.65rem 1rem;border-radius:2px;background:rgba(180,60,60,.1);color:#e07070;border:1px solid rgba(180,60,60,.25);';
+
+/* ══════════════════════════════════════════════════════════════
+   CONTACT FORM
+══════════════════════════════════════════════════════════════ */
+async function handleContact() {
+  const nameEl  = document.getElementById('cf-name');
+  const emailEl = document.getElementById('cf-email');
+  const msgEl   = document.getElementById('cf-msg');
+  const btn     = document.getElementById('cf-btn');
+  const status  = document.getElementById('cf-status');
+
+  const name    = nameEl.value.trim();
+  const email   = emailEl.value.trim();
+  const message = msgEl.value.trim();
+
+  /* reset borders */
+  [nameEl, emailEl, msgEl].forEach(el => el.style.borderColor = '');
+  status.className = '';
+  status.style.display = 'none';
+
+  /* validation — highlight the bad field */
+  if (!name) {
+    nameEl.style.borderColor = '#c0392b';
+    nameEl.focus();
+    setStatus('error', 'Please enter your name.');
+    return;
+  }
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    emailEl.style.borderColor = '#c0392b';
+    emailEl.focus();
+    setStatus('error', 'Please enter a valid email address.');
+    return;
+  }
+  if (!message) {
+    msgEl.style.borderColor = '#c0392b';
+    msgEl.focus();
+    setStatus('error', 'Please write a message before sending.');
+    return;
+  }
+
+  /* loading state */
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Sending…';
+
+  try {
+    await sendToScript({
+      type:       'contact',
+      from_name:  name,
+      from_email: email,
+      message:    message,
+      sent_at:    new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+    });
+
+    /* success */
+    setStatus('success', '✓ Message sent! We\'ll get back to you at ' + email + ' soon.');
+    btn.innerHTML = '✓ Message Sent';
+    btn.style.cssText = 'background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.3);width:100%;min-height:48px;border-radius:2px;font-family:var(--sans);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;display:flex;align-items:center;justify-content:center;';
+    /* clear fields */
+    nameEl.value = '';
+    emailEl.value = '';
+    msgEl.value = '';
+    nameEl.style.borderColor = '';
+    emailEl.style.borderColor = '';
+    msgEl.style.borderColor = '';
+
+  } catch (err) {
+    setStatus('error', '✗ Something went wrong. Please email us directly at samvada.official@gmail.com');
+    btn.disabled = false;
+    btn.innerHTML = 'Try Again →';
+  }
+}
+
+function setStatus(type, msg) {
+  const el = document.getElementById('cf-status');
+  el.textContent = msg;
+  el.className = type;   /* triggers CSS display:block + styling */
 }
 </script>
 </body>
